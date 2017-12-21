@@ -1,6 +1,6 @@
 import gzip
 
-from common.validation_report import ValidationReport
+from ValidationReport import ValidationReport
 
 
 class Validator:

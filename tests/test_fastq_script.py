@@ -3,7 +3,7 @@ from io import StringIO
 from unittest import TestCase
 from unittest.mock import patch
 
-from common.validation_report import ValidationReport
+from ValidationReport import ValidationReport
 from script.fastq import Fastq
 
 
