@@ -1,9 +1,18 @@
+from enum import Enum
+
 from ValidationReport.error import ValidationError, RecordValidationError
 
+class State(Enum):
+    UNDEFINED = 'UNDEFINED'
+    VALID = 'VALID'
+    INVALID = 'INVALID'
+
+    def report(self):
+        return ValidationReport(self)
 
 class ValidationReport:
 
-    def __init__(self, state="", error_reports=None):
+    def __init__(self, state:State=State.UNDEFINED, error_reports=None):
         self.state = state
         self.errors = error_reports if error_reports is not None else list()  # list of ErrorReport
 

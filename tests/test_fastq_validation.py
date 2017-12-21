@@ -1,6 +1,7 @@
 import os
 import unittest
 
+from ValidationReport import State
 from Validator import Validator
 
 BASE_DIR = os.path.dirname(__file__)
@@ -85,11 +86,11 @@ class TestFastqFileValidation(unittest.TestCase):
 
     def _do_test_validate_as_valid(self, test_data, extension=None):
         result = self._do_execute_validate(test_data, extension)
-        self.assertEqual("VALID", result.state)
+        self.assertEqual(State.VALID, result.state)
 
     def _do_test_validate_as_invalid(self, test_data):
         result = self._do_execute_validate(test_data)
-        self.assertEqual("INVALID", result.state)
+        self.assertEqual(State.INVALID, result.state)
         return result
 
     def _do_execute_validate(self, test_data, extension=None):

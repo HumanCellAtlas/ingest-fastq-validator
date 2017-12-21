@@ -1,6 +1,6 @@
 import gzip
 
-from ValidationReport import ValidationReport
+from ValidationReport import ValidationReport, State
 
 
 class Validator:
@@ -25,7 +25,7 @@ class Validator:
     def _validate_source_bytes(self, source):
         valid = True
         record = list()
-        report = ValidationReport("INVALID")
+        report = State.INVALID.report()
         for line in source:
             if not valid:
                 break
@@ -46,10 +46,11 @@ class Validator:
             report.log_error("does not contain a multiple of 4 lines. Please check that the file has "
                              "not been truncated.")
         valid = valid and len(record) == 0
-        return ValidationReport.validation_report_ok() if valid \
+        return State.VALID.report() if valid \
         else report
 
     def _validate_record(self, record):
+        report = ValidationReport("INVALID")
         valid_identifier = self._validate_identifier_line(record[0])
         valid_bases = self._validate_bases(record[1])
         valid_plus = self._validate_plus(record[2])
