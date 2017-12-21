@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from validator.fastq import Validator
+from Validator import Validator
 
 BASE_DIR = os.path.dirname(__file__)
 

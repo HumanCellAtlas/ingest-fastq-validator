@@ -3,7 +3,7 @@
 import json
 import sys
 
-from validator.fastq import Validator
+from Validator import Validator
 
 
 class Fastq:

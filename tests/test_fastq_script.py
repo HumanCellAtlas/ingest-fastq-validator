@@ -37,7 +37,7 @@ class TestFastqScript(TestCase):
 
 
     def _do_execute_print_report(self, expected_report):
-        with patch('validator.fastq.Validator') as validator:
+        with patch('Validator.Validator') as validator:
             # given:
             validator.validate.return_value = expected_report
 
