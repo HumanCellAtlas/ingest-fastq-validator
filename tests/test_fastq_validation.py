@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from ValidationReport import State
+from ValidationReport import State, RecordError
 from Validator import Validator
 
 BASE_DIR = os.path.dirname(__file__)
@@ -17,14 +17,13 @@ class TestFastqFileValidation(unittest.TestCase):
     def test_validates_ascii(self):
         self._do_test_validate_as_valid('single_valid')
 
-    def test_fails_with_invalid_ascii(self):
+    def test_fails_with_invalid_sequence_characters(self):
         # when:
         result = self._do_test_validate_as_invalid('single_invalid-ascii')
 
         # then:
         self.assertEqual(1, len(result.errors))
-        self.assertEqual("Invalid sequence characters found in sequence with id "
-                         "@ERR1821139.3 HS30_21126:4:1101:1699:2070/1.",  result.errors[0].user_friendly_message)
+        self.assertEqual(RecordError.Type.INVALID_SEQUENCE, result.errors[0].type)
 
     def test_correct_number_of_lines_and_valid_ascii(self):
         self._do_test_validate_as_valid('single_correct-num-lines')

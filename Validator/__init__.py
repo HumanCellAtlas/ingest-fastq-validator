@@ -50,14 +50,14 @@ class Validator:
         else report
 
     def _validate_record(self, record):
-        report = ValidationReport("INVALID")
-        valid_identifier = self._validate_identifier_line(record[0])
+        errors = []
+        if not self._validate_identifier_line(record[0]):
+            errors.append(1)
         valid_bases = self._validate_bases(record[1])
         valid_plus = self._validate_plus(record[2])
         valid_quality_scores = self._validate_quality_scores(record[3])
         equal_lengths = self._validate_bases_length_equals_qc_length(record[1], record[3])
-        return valid_identifier and valid_bases and valid_plus and valid_quality_scores \
-               and equal_lengths
+        return []
 
     def _validate_identifier_line(self, line):
         # is the first char @ ?

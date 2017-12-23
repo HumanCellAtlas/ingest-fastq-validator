@@ -1,6 +1,6 @@
 from enum import Enum
 
-from ValidationReport.error import ValidationError, RecordValidationError
+from ValidationReport.error import ValidationError, RecordError
 
 class State(Enum):
     UNDEFINED = 'UNDEFINED'
@@ -23,7 +23,7 @@ class ValidationReport:
         self.errors.append(ValidationError(user_friendly_message))
 
     def log_record_error(self, sequence_id):
-        self.errors.append(RecordValidationError(sequence_id))
+        self.errors.append(RecordError(sequence_id))
 
     def to_dict(self):
         return {
