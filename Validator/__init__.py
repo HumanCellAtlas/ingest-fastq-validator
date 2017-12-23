@@ -1,6 +1,6 @@
 import gzip
 
-from ValidationReport import ValidationReport, State
+from ValidationReport import ValidationReport, State, RecordError
 
 
 class Validator:
@@ -35,9 +35,10 @@ class Validator:
                 record.append(line)
                 record_is_ready = len(record) == 4
                 if record_is_ready:
-                    valid = valid and self._validate_record(record)
+                    errors = self._find_errors(record)
+                    valid = valid and not errors
                     if not valid:
-                        report.log_record_error((record[0].decode('utf-8')))
+                        report.errors = errors
                     record.clear()
             else:
                 valid = False
@@ -49,15 +50,20 @@ class Validator:
         return State.VALID.report() if valid \
         else report
 
-    def _validate_record(self, record):
+    def _find_errors(self, record):
         errors = []
+        sequence_id = record[0].decode('UTF-8')
         if not self._validate_identifier_line(record[0]):
             errors.append(1)
-        valid_bases = self._validate_bases(record[1])
-        valid_plus = self._validate_plus(record[2])
-        valid_quality_scores = self._validate_quality_scores(record[3])
-        equal_lengths = self._validate_bases_length_equals_qc_length(record[1], record[3])
-        return []
+        if not self._validate_bases(record[1]):
+            errors.append(RecordError.Type.INVALID_SEQUENCE.report_error(sequence_id))
+        if not self._validate_plus(record[2]):
+            errors.append(1)
+        if not self._validate_quality_scores(record[3]):
+            errors.append(1)
+        if not self._validate_bases_length_equals_qc_length(record[1], record[3]):
+            errors.append(1)
+        return errors
 
     def _validate_identifier_line(self, line):
         # is the first char @ ?

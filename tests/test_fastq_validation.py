@@ -18,12 +18,16 @@ class TestFastqFileValidation(unittest.TestCase):
         self._do_test_validate_as_valid('single_valid')
 
     def test_fails_with_invalid_sequence_characters(self):
-        # when:
+        # expect:
         result = self._do_test_validate_as_invalid('single_invalid-ascii')
 
-        # then:
+        # and:
         self.assertEqual(1, len(result.errors))
-        self.assertEqual(RecordError.Type.INVALID_SEQUENCE, result.errors[0].type)
+
+        # and:
+        error = result.errors[0]
+        self.assertEqual(RecordError.Type.INVALID_SEQUENCE, error.type)
+        self.assertEqual('@ERR1821139.3 HS30_21126:4:1101:1699:2070/1', error.sequence_id)
 
     def test_correct_number_of_lines_and_valid_ascii(self):
         self._do_test_validate_as_valid('single_correct-num-lines')

@@ -18,6 +18,8 @@ class RecordError(ValidationError):
             error_type.description = description
             return  error_type
 
+        def report_error(self, sequence_id:str):
+            return RecordError(sequence_id, self)
 
     def __init__(self, sequence_id, type:Type=Type.UNDEFINED):
         self.sequence_id = sequence_id
