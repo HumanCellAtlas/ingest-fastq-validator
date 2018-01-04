@@ -44,6 +44,9 @@ class TestFastqFileValidation(unittest.TestCase):
         self._do_test_validate_as_invalid('single_invalid-has-n-then-period')
         self._do_test_validate_as_invalid('single_invalid-has-period-then-n')
 
+    def test_accepts_equal_sign_in_sequence(self):
+        self._do_test_validate_as_valid('single_valid-equal-sign')
+
     # Note:
     # The test file technically contains 62 base characters and 60 quality score character.
     # However, characters outside the traditional ASCII characters are represented using 16 (or more bits) in UTF-8.

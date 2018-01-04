@@ -10,7 +10,7 @@ class Validator:
     def __init__(self):
         self.validation_results = None
         self.sequence_symbols = list()
-        for symbol in "ACTGN.":
+        for symbol in "ACTGN=.":
             self.sequence_symbols.append(ord(symbol))
 
 
